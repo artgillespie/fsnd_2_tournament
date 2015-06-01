@@ -125,6 +125,25 @@ def testPairings():
     print "8. After one match, players with one win are paired."
 
 
+def testPreviousMatch():
+    deleteMatches()
+    deletePlayers()
+    registerPlayer("Twilight Sparkle")
+    registerPlayer("Fluttershy")
+    registerPlayer("Applejack")
+    registerPlayer("Pinkie Pie")
+    standings = playerStandings()
+    [id1, id2, id3, id4] = [row[0] for row in standings]
+    # id1 and id3 play
+    reportMatch(id1, id2)
+    if not previousMatch(id1, id2):
+        raise ValueError(
+            "Expected %s and %s to have a previous match" % (standings[0][1], standings[1][1]))
+    if previousMatch(id3, id4):
+        raise ValueError(
+            "Expected %s and %s to _not_ have a previous match" % (standings[2][1], standings[3][1]))
+    print "9. Players 1 and 2 have a previous match, 3 and 4 don't"
+
 if __name__ == '__main__':
     testDeleteMatches()
     testDelete()
@@ -134,6 +153,7 @@ if __name__ == '__main__':
     testStandingsBeforeMatches()
     testReportMatches()
     testPairings()
+    testPreviousMatch()
     print "Success!  All tests pass!"
 
 
